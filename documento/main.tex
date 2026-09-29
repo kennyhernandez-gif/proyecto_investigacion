@@ -7,6 +7,8 @@
 \onehalfspacing
 \usepackage{graphicx}  % figuras
 \usepackage{booktabs}  % tablas
+\usepackage{array}     % columnas de tabla
+\usepackage{xcolor}    % marcadores de pendientes
 \usepackage[backend=biber,style=ieee]{biblatex}
 \addbibresource{referencias.bib}
 \usepackage{hyperref}
@@ -15,6 +17,8 @@
   \renewcommand{\contentsname}{Contenido}
   \renewcommand{\listtablename}{Índice de tablas}
   \renewcommand{\listfigurename}{Índice de figuras}
+  \renewcommand{\tablename}{Tabla}
+  \renewcommand{\figurename}{Figura}
 }
 
 \usepackage{titlesec}
@@ -47,6 +51,9 @@
   \end{center}
 }
 
+% Marcador para datos que el equipo debe completar o verificar con fuente real
+\newcommand{\pendiente}[1]{\textcolor{red}{[#1]}}
+
 \begin{document}
 
 \begin{titlepage}
@@ -59,14 +66,15 @@
 
 \vfill
 
-{\bfseries RETORNO DE INVERSIÓN DE LAS HERRAMIENTAS DE INTELIGENCIA ARTIFICIAL GENERATIVA EN LA PRODUCTIVIDAD Y EMPLEABILIDAD DE ESTUDIANTES DE PROGRAMACIÓN DE LA UPTC}\\[0.5cm]
+{\bfseries DEPENDENCIA DE LOS ESTUDIANTES DE INGENIERÍA DE SISTEMAS DE LA UPTC EN EL USO DE HERRAMIENTAS DE INTELIGENCIA ARTIFICIAL GENERATIVA}\\[0.5cm]
 
 \vfill
 
 {\MakeUppercase{Autores}}\\[0.3cm]
-{Anderson Jair Castelblanco Gòmez}\\
+{Anderson Jair Castelblanco Gómez}\\
 {Joseph David Huertas Vargas}\\
-{Brayan Andres Diaz Diaz}
+{Brayan Andres Diaz Diaz}\\
+{Kenny Daniel Hernández Hernández}
 
 \vfill
 
@@ -103,38 +111,204 @@
 \subsection{Antecedentes}
 
 La tecnología actual ha alcanzado un nivel de desarrollo que permite imitar aspectos de la inteligencia humana mediante lo que conocemos como Inteligencia Artificial (IA). Estos sistemas mantienen conversaciones coherentes y contextualizadas, resuelven problemas de distinta naturaleza, aprenden a partir de grandes volúmenes de datos y toman decisiones basadas en patrones previamente identificados. Este avance es resultado de décadas de investigación en aprendizaje automático, procesamiento del lenguaje natural y redes neuronales.
- 
-En el campo de la programación, la evidencia empírica confirma que este impacto no es meramente anecdótico. El experimento controlado de Peng, Kalliamvakou, Cihon y Dohmke~\cite{peng2023impact} demostró que los desarrolladores asistidos por IA completaron una tarea de referencia (la creación de un servidor HTTP en JavaScript) un 55.8\% más rápido que el grupo de control, y --dato central para este proyecto-- que los programadores con menos experiencia fueron quienes obtuvieron el mayor beneficio relativo en velocidad. Esto sugiere que el impacto de estas herramientas podría ser incluso más pronunciado en poblaciones estudiantiles que en profesionales consolidados, lo que justifica que la pregunta de rentabilidad se plantee específicamente en el contexto universitario y no solo en el laboral.
- 
-A nivel de uso continuado y de pago, Cui et al.~\cite{cui2024productivity} encontraron, en un experimento de campo con 4,867 desarrolladores en entornos empresariales, un aumento medio del 26.08\% en tareas completadas al usar herramientas de suscripción. Este dato empírico permite establecer un punto de comparación cuantitativo entre inversión económica y productividad neta, que es precisamente la relación costo-beneficio que este proyecto busca trasladar y verificar en el contexto académico, donde las condiciones de uso, motivación y complejidad de las tareas difieren de las de un entorno corporativo.
- 
-Sin embargo, la productividad medida en velocidad de ejecución no es el único eje relevante. Prather et al.~\cite{prather2023programming} argumentan que la incorporación de generadores de código basados en LLM está transformando el enfoque pedagógico de la programación: el aprendizaje se desplaza desde la memorización de sintaxis hacia la formulación de instrucciones (prompting), la depuración y la verificación lógica del código generado. Esto plantea una tensión que el proyecto debe considerar: ganar tiempo no equivale necesariamente a aprender mejor, y por tanto la rentabilidad de una suscripción de pago no puede medirse solo en tiempo ahorrado, sino también en si esa ganancia de tiempo se traduce en comprensión técnica real o en dependencia.
- 
-Esta tensión se ve reforzada por los hallazgos de Martinović y Rozić~\cite{martinovic2024ai}, quienes muestran que, si bien las herramientas de IA reducen errores sintácticos iniciales, un uso desmedido y sin criterio de revisión puede derivar en código menos estructurado o en vacíos de comprensión lógica. Este hallazgo es clave para cuestionar si la versión gratuita --con sus limitaciones-- es en realidad suficiente, o incluso preferible, durante la fase de fundamentación académica, precisamente porque impone restricciones que obligan a un mayor esfuerzo cognitivo del estudiante.
- 
-La revisión sistemática de más de 60 estudios empíricos sobre IA generativa en la educación en ciencias de la computación (2025/2026)~\cite{dialnet2025inteligencia,comillas2025impacto,ups2025inteligencia,scielo2025revision,redalyc2024revision,scielochile2025uso,horizontes2024implicaciones,zenodo2025impacto} aporta una base metodológica más amplia: evalúa la carga cognitiva del estudiante y compara las tasas de alucinación de código entre modelos gratuitos y modelos avanzados de pago, lo que da sustento sistemático a la hipótesis de que invertir en versiones avanzadas podría reducir el tiempo de depuración --uno de los indicadores centrales que este proyecto se propone medir--.
- 
-Finalmente, el marco de la ``Productivity-Validation Tension'' descrito por IEEE Software~\cite{ieee2024assisted} resulta metodológicamente decisivo para este proyecto: aunque las herramientas de suscripción reducen el tiempo dedicado a escribir código repetitivo, introducen un costo adicional en la validación y prueba de las sugerencias generadas. Esto respalda directamente la decisión metodológica del proyecto de no medir la rentabilidad únicamente en ``líneas escritas por minuto'', sino en el tiempo neto ahorrado, considerando también el proceso de revisión y comprobación del trabajo académico. Del mismo modo, Ziegler et al.~\cite{ziegler2022measuring} muestran que tasas de aceptación de sugerencias cercanas al 27\%--30\% se correlacionan con una mayor percepción de fluidez y productividad, lo que permite contrastar el comportamiento de un usuario con acceso ilimitado frente a las restricciones propias de un plan gratuito.
- 
-En conjunto, esta evidencia respalda la pertinencia de evaluar si el costo de una suscripción de pago se justifica por la mejora real en productividad, calidad de código y aprendizaje autónomo del estudiante, o si la versión gratuita resulta suficiente en las etapas iniciales de formación, sin requerir esa inversión adicional.
+
+En el campo de la programación, la evidencia empírica confirma que este impacto no es meramente anecdótico. El experimento controlado de Peng, Kalliamvakou, Cihon y Dohmke~\cite{peng2023impact} demostró que los desarrolladores asistidos por IA completaron una tarea de referencia (la creación de un servidor HTTP en JavaScript) un 55.8\% más rápido que el grupo de control, y que los programadores con menos experiencia fueron quienes obtuvieron el mayor beneficio relativo en velocidad. Este hallazgo tiene una doble lectura para el contexto universitario: por un lado, muestra el valor de estas herramientas; por otro, indica que quienes más se benefician son también quienes más podrían apoyarse en ellas de forma constante, es decir, los estudiantes en formación.
+
+Prather et al.~\cite{prather2023programming} argumentan que la incorporación de generadores de código basados en modelos de lenguaje está transformando el enfoque pedagógico de la programación: el aprendizaje se desplaza desde la memorización de sintaxis hacia la formulación de instrucciones (prompting), la depuración y la verificación lógica del código generado. Este cambio plantea un riesgo: si el estudiante delega en la herramienta las tareas que antes ejercitaban su razonamiento, puede no desarrollar las habilidades que la propia verificación del código exige.
+
+Esa preocupación se ve reforzada por los hallazgos de Martinović y Rozić~\cite{martinovic2024ai}, quienes muestran que, si bien las herramientas de IA reducen errores sintácticos iniciales, un uso desmedido y sin criterio de revisión puede derivar en código menos estructurado o en vacíos de comprensión lógica. Es decir, el beneficio inmediato (menos errores, más rapidez) puede ocultar un costo en el aprendizaje, que solo se hace visible cuando el estudiante debe trabajar sin apoyo.
+
+La revisión sistemática de más de 60 estudios empíricos sobre IA generativa en la educación en ciencias de la computación (2025/2026)~\cite{dialnet2025inteligencia,comillas2025impacto,ups2025inteligencia,scielo2025revision,redalyc2024revision,scielochile2025uso,horizontes2024implicaciones,zenodo2025impacto} aporta una base más amplia: evalúa, entre otros aspectos, la carga cognitiva del estudiante y las limitaciones del código generado, lo que da sustento a la necesidad de estudiar no solo si los estudiantes usan estas herramientas, sino cómo y con qué grado de autonomía lo hacen.
+
+El marco de la ``Productivity-Validation Tension'' descrito por IEEE Software~\cite{ieee2024assisted} añade otro elemento: aunque las herramientas reducen el tiempo dedicado a escribir código repetitivo, trasladan el esfuerzo hacia la validación y prueba de lo que sugieren. Un estudiante que acepta las sugerencias sin realizar esa validación deja de ejercer precisamente la actividad que lo forma. En la misma línea, Ziegler et al.~\cite{ziegler2022measuring} muestran que la tasa de aceptación de las sugerencias de un asistente de código se relaciona con la percepción de fluidez y productividad del usuario, lo que sugiere que la aceptación de sugerencias puede servir como indicador observable del grado de apoyo en la herramienta.
+
+En conjunto, la literatura revisada documenta beneficios de productividad en profesionales y advierte riesgos para el aprendizaje en estudiantes, pero deja abierta la pregunta de cuánto dependen los estudiantes de estas herramientas y qué factores se asocian a esa dependencia, en particular en el contexto de los programas de ingeniería de sistemas de universidades públicas colombianas como la UPTC. \pendiente{Agregar al menos 2 o 3 fuentes sobre dependencia o sobreconfianza en IA, y si es posible un antecedente local o nacional.}
 
 \subsection{Descripción de la situación problemática}
 
+Los estudiantes de Ingeniería de Sistemas y Computación de la UPTC utilizan cada vez con mayor frecuencia herramientas de inteligencia artificial generativa (IAG) para resolver ejercicios, depurar código y comprender conceptos. \pendiente{Incluir dato local de uso (por ejemplo, un sondeo propio) o citar una fuente institucional.} Esta incorporación, por sí sola, no es un problema; lo es cuando el uso deja de ser un apoyo y se convierte en la vía principal, o única, para resolver tareas.
+
+Ese tránsito del apoyo a la dependencia tiene manifestaciones observables: estudiantes que no pueden explicar el código que entregan, que recurren a la herramienta antes de intentar razonar el problema, que aceptan sus respuestas sin verificarlas, o que se sienten incapaces de avanzar cuando no tienen acceso a ella. La literatura advierte que un uso sin criterio de revisión puede derivar en vacíos de comprensión lógica~\cite{martinovic2024ai} y que el aprendizaje de la programación se desplaza hacia la verificación del código generado~\cite{prather2023programming}, competencia que solo se ejerce si el estudiante realmente valida lo que recibe~\cite{ieee2024assisted}.
+
+El problema es particularmente sensible en las asignaturas de programación, porque en ellas los fundamentos (lógica, estructuras de datos, depuración) se construyen con la práctica, y porque sobre ellos se apoyan las asignaturas posteriores del programa. Si esos fundamentos se debilitan por una delegación excesiva en la herramienta, el efecto se acumula a lo largo de la carrera.
+
+Además, no se dispone de una medición local de este fenómeno: el programa no cuenta con datos que indiquen qué tan dependientes son sus estudiantes ni qué factores (semestre, experiencia previa, forma de uso) se asocian a esa dependencia. \pendiente{Verificar con el programa si existe algún diagnóstico o lineamiento institucional sobre el uso de IAG.} Sin esa información, tanto docentes como estudiantes deciden a ciegas cómo integrar estas herramientas al proceso formativo.
+
 \subsection{Formulación del problema}
+
+Con base en lo descrito, el problema se plantea mediante la siguiente pregunta de investigación:
+
+\begin{quote}
+\emph{¿Cuál es el nivel de dependencia de los estudiantes de Ingeniería de Sistemas y Computación de la UPTC respecto a las herramientas de inteligencia artificial generativa, y qué factores se asocian a esa dependencia?}
+\end{quote}
+
+De esta pregunta general se derivan las siguientes preguntas específicas:
+
+\begin{enumerate}
+  \item ¿Con qué frecuencia y para qué tareas académicas usan los estudiantes herramientas de IAG?
+  \item ¿Qué nivel de dependencia presentan los estudiantes, entendida como la tendencia a delegar en la herramienta el razonamiento y la resolución de tareas?
+  \item ¿Qué factores (semestre, experiencia previa, frecuencia de uso, confianza en sus propias habilidades) se asocian a un mayor nivel de dependencia?
+  \item ¿Se asocia un mayor nivel de dependencia con un menor desempeño o comprensión cuando el estudiante trabaja sin apoyo de la herramienta?
+\end{enumerate}
 
 \subsection{Consecuencias de no investigar}
 
+Si este problema no se investiga, es probable que la dependencia siga creciendo sin ser detectada. Los estudiantes podrían avanzar en el programa con vacíos en sus fundamentos de programación, que se harían evidentes en asignaturas posteriores, en evaluaciones sin apoyo y, más adelante, en el ejercicio profesional, donde se espera que puedan validar y responsabilizarse del código que producen.
+
+Para el programa y sus docentes, la falta de datos propios mantiene el vacío de criterios: sin saber cómo y cuánto dependen los estudiantes de estas herramientas, es difícil diseñar actividades de evaluación, orientaciones de uso o estrategias de acompañamiento acordes con la realidad de la UPTC. Finalmente, persistiría un vacío en la literatura sobre el uso de IAG por parte de estudiantes de ingeniería de sistemas en universidades públicas colombianas.
+
 \subsection{Delimitación}
+
+\subsubsection{Delimitación espacial}
+El estudio se realiza en la Universidad Pedagógica y Tecnológica de Colombia (UPTC), sede Tunja, en el programa de Ingeniería de Sistemas y Computación de la Facultad de Ingeniería.
+
+\subsubsection{Delimitación temporal}
+La recolección de datos se llevará a cabo durante el año 2026. \pendiente{Precisar el periodo académico exacto de aplicación de los instrumentos.}
+
+\subsubsection{Delimitación poblacional}
+La población objeto son los estudiantes matriculados en el programa de Ingeniería de Sistemas y Computación. \pendiente{Definir el rango de semestres y el tamaño aproximado de la población.}
+
+\subsubsection{Delimitación temática}
+El estudio se limita al uso de herramientas de IAG de tipo conversacional o asistente de código en actividades académicas, y al análisis de la dependencia de los estudiantes respecto a ellas. No se evalúan aspectos económicos (como el costo o tipo de suscripción), ni se juzga la calidad de cada herramienta en particular.
 
 \section{Justificación}
 
+Este proyecto es pertinente por tres razones. La primera es formativa: los fundamentos de programación se construyen con la práctica, y una delegación excesiva en la IAG puede impedir que los estudiantes los desarrollen. Conocer el nivel de dependencia permite identificar el problema a tiempo, cuando aún es posible corregirlo.
+
+La segunda es académica. La evidencia sobre estas herramientas proviene sobre todo de estudios de productividad con desarrolladores profesionales~\cite{peng2023impact}, y los estudios en educación advierten sobre la tensión entre rapidez y aprendizaje~\cite{martinovic2024ai,prather2023programming,ieee2024assisted}. Este proyecto aporta evidencia empírica sobre la dependencia, un aspecto menos estudiado, en una población concreta: estudiantes de una universidad pública colombiana.
+
+La tercera es institucional: los resultados pueden servir al programa como insumo para diseñar orientaciones de uso, actividades de evaluación y estrategias de acompañamiento. Además, el proyecto es viable, pues la población es accesible para los autores, los instrumentos de recolección son de bajo costo y el tema es de interés inmediato para estudiantes y docentes.
+
 \section{Objetivos}
+
+\subsection{Objetivo general}
+
+Contribuir a que el programa de Ingeniería de Sistemas y Computación de la UPTC oriente el uso de las herramientas de inteligencia artificial generativa de manera que sean un apoyo al aprendizaje y no un sustituto del razonamiento de los estudiantes, protegiendo el desarrollo de los fundamentos de programación y de la capacidad de validar el código que producen.
+
+El objetivo general expresa la finalidad que trasciende este informe: el estudio no puede demostrar por sí mismo que el programa adopte esas orientaciones, pues eso depende de decisiones posteriores de docentes y directivos. Lo que el estudio sí produce es la evidencia local que esa decisión requiere, y esa evidencia es la que se describe en los objetivos específicos.
+
+\subsection{Objetivos específicos}
+
+Cada objetivo específico corresponde a una de las preguntas específicas de la sección~1.3, se enuncia en el orden en que se lograrán y va acompañado de una meta que indica cómo se reportará su cumplimiento. El tamaño de la muestra ($n$) se fijará al definir la delimitación poblacional y el diseño metodológico.
+
+\begin{enumerate}
+  \item Caracterizar la frecuencia de uso y los tipos de tareas académicas en las que los estudiantes emplean herramientas de IAG.
+
+  \textbf{Meta:} reportar la distribución de la frecuencia de uso y la proporción de estudiantes que usa la herramienta en cada tipo de tarea, en una muestra de \pendiente{$n$} estudiantes.
+
+  \item Medir el nivel de dependencia de los estudiantes respecto a las herramientas de IAG.
+
+  \textbf{Meta:} reportar la puntuación media, la dispersión y la distribución de los estudiantes por nivel de dependencia, en la misma muestra de \pendiente{$n$} estudiantes.
+
+  \item Determinar la asociación entre el nivel de dependencia y los factores considerados en el estudio (semestre, experiencia previa, frecuencia de uso y confianza en las propias habilidades).
+
+  \textbf{Meta:} reportar, para cada factor, la magnitud de su asociación con la dependencia (coeficiente o diferencia entre grupos) junto con su intervalo de confianza.
+
+  \item Establecer la relación entre el nivel de dependencia y el desempeño del estudiante al trabajar sin apoyo de la herramienta.
+
+  \textbf{Meta:} reportar el coeficiente de asociación entre dependencia y desempeño sin apoyo, con su intervalo de confianza, para los \pendiente{$n$} estudiantes.
+\end{enumerate}
+
+Los cuatro objetivos específicos pueden demostrarse directamente en el informe final mediante una tabla o un cálculo concreto: la distribución de uso (1), la distribución de la dependencia (2), las asociaciones con cada factor (3) y la asociación con el desempeño (4). En conjunto, aportan lo necesario para valorar en qué medida el uso de la IAG se ha convertido en delegación del razonamiento, en quiénes ocurre más y con qué consecuencias, que es la evidencia que exige el objetivo general.
 
 \section{Alcance de la investigación}
 
+Este estudio es de alcance \textbf{descriptivo-correlacional}. Busca, por un lado, caracterizar el uso que los estudiantes hacen de las herramientas de IAG y medir su nivel de dependencia (componente descriptivo) y, por otro, establecer si ese nivel de dependencia se asocia con el semestre, la experiencia previa, la frecuencia de uso, la confianza en las propias habilidades y el desempeño sin asistencia (componente correlacional). Este último es el que orienta las hipótesis y el diseño; el componente descriptivo es su base y no requiere hipótesis propias.
+
+Esta elección se apoya en el estado actual del conocimiento. Los estudios disponibles documentan el efecto de estas herramientas sobre la productividad de desarrolladores~\cite{peng2023impact,ziegler2022measuring} y advierten riesgos para el aprendizaje~\cite{prather2023programming,martinovic2024ai,ieee2024assisted}, pero ninguno mide cuánto dependen los estudiantes de ellas ni qué factores se asocian a esa dependencia en el contexto de la UPTC. Por eso el estudio se queda en el nivel descriptivo-correlacional: todavía no hay base local suficiente para plantear una relación de causa y efecto, ni el diseño manipula el acceso a la herramienta; a la vez, el fenómeno ya está documentado en otros contextos, lo que justifica ir más allá de una exploración. \pendiente{Confirmar con el asesor si el diseño incluirá solo encuesta o también una tarea de programación sin apoyo de IA para medir desempeño.}
+
+\subsection{Limitaciones de la investigación}
+
+Las siguientes limitaciones acotan lo que el estudio puede concluir:
+
+\begin{itemize}
+  \item \textbf{No permite establecer causalidad.} Al ser un estudio correlacional no experimental, una asociación entre dependencia y otra variable puede tener varias lecturas. Por ejemplo, depender más de la herramienta puede ser tanto causa como consecuencia de un menor desempeño o de dificultades previas. Los resultados se interpretarán como asociaciones.
+  \item \textbf{Datos de autorreporte.} La frecuencia de uso, la dependencia y la confianza en las propias habilidades dependen de lo que los estudiantes declaran, por lo que pueden verse afectadas por deseabilidad social o por una percepción imprecisa de su propio uso.
+  \item \textbf{Generalización limitada.} El estudio se realiza en un solo programa y una sola sede de una universidad pública, con una muestra \pendiente{descrita en el diseño metodológico}, por lo que sus resultados no son extrapolables sin cautela a otros programas o universidades.
+  \item \textbf{Variables externas no controladas del todo.} Factores como las asignaturas cursadas en el periodo o las políticas de cada docente sobre el uso de IAG pueden influir en la dependencia y el desempeño; el estudio controla solo el promedio académico y el tipo de tareas.
+  \item \textbf{Validación del instrumento dentro del mismo estudio.} Si la escala de dependencia se construye o adapta para este estudio, sus propiedades (confiabilidad y validez) deben reportarse junto con los resultados y no darse por supuestas.
+\end{itemize}
+
 \section{Formulación de hipótesis}
 
+El alcance descriptivo-correlacional permite formular hipótesis para el componente correlacional. Los objetivos específicos 1 y 2 son descriptivos: caracterizan el uso y miden la dependencia sin relacionar variables, por lo que no se les formulan hipótesis. Tampoco se formulan para el semestre y la confianza en las propias habilidades, cuya asociación con la dependencia se examinará de forma exploratoria, porque la literatura revisada no permite anticipar una dirección concreta.
+
+Cada hipótesis de investigación nombra las variables que relaciona y la dirección esperada, de modo que un resultado sin asociación o en sentido contrario la refutaría. A cada una le corresponde una hipótesis nula. El análisis estadístico evaluará si hay evidencia suficiente para rechazar la hipótesis nula; la hipótesis de investigación no se demuestra de forma directa. Las hipótesis quedan sujetas a ajuste al definir el diseño metodológico.
+
+\subsection{Hipótesis de investigación}
+
+\begin{description}
+  \item[$H_1$:] Existe una asociación positiva entre la frecuencia de uso de herramientas de IAG y el nivel de dependencia de los estudiantes.
+
+  \emph{Tipo:} correlacional. \emph{Fundamento:} si la tasa de aceptación de sugerencias se relaciona con la percepción de productividad del usuario~\cite{ziegler2022measuring}, es razonable esperar que quien usa la herramienta con mayor frecuencia se apoye más en ella.
+
+  \item[$H_2$:] Los estudiantes con menor experiencia previa en programación presentan un mayor nivel de dependencia que los de mayor experiencia.
+
+  \emph{Tipo:} de diferencia de grupos. \emph{Fundamento:} los programadores con menos experiencia son quienes obtienen el mayor beneficio relativo de estas herramientas~\cite{peng2023impact}, lo que los hace más propensos a apoyarse en ellas de forma constante.
+
+  \item[$H_3$:] Existe una asociación negativa entre el nivel de dependencia y el desempeño del estudiante en tareas de programación realizadas sin apoyo de la herramienta.
+
+  \emph{Tipo:} correlacional. \emph{Fundamento:} el uso desmedido y sin revisión puede derivar en vacíos de comprensión lógica~\cite{martinovic2024ai}, y la verificación del código generado es una competencia que solo se ejerce si el estudiante realmente valida lo que recibe~\cite{prather2023programming,ieee2024assisted}.
+\end{description}
+
+\subsection{Hipótesis nulas}
+
+\begin{description}
+  \item[$H_{0,1}$:] No existe asociación entre la frecuencia de uso de herramientas de IAG y el nivel de dependencia.
+  \item[$H_{0,2}$:] No existen diferencias en el nivel de dependencia según la experiencia previa en programación.
+  \item[$H_{0,3}$:] No existe asociación entre el nivel de dependencia y el desempeño sin apoyo de la herramienta.
+\end{description}
+
 \section{Variables}
+
+Esta sección identifica las variables que relacionan las hipótesis, las clasifica según su función y presenta su definición nominal o conceptual, es decir, qué significa cada una dentro de este estudio. La definición operacional (instrumento, escala y procedimiento de medición) se desarrolla en el diseño metodológico.
+
+La función de una variable (independiente, dependiente o interviniente) depende de su papel en cada hipótesis y no es una propiedad fija. Así, la dependencia de la IAG es variable dependiente en $H_1$ y $H_2$, y variable independiente en $H_3$.
+
+\subsection{Variable central del estudio}
+
+\textbf{Dependencia de la IAG.} Grado en que el estudiante delega en la herramienta el razonamiento y la resolución de sus tareas académicas: recurre a ella antes de intentar resolverlas por sí mismo, acepta sus respuestas sin verificarlas o se percibe incapaz de avanzar sin ella. No equivale a uso: un estudiante puede usar la herramienta con frecuencia sin delegar su razonamiento. \emph{Función:} dependiente en $H_1$ y $H_2$; independiente en $H_3$.
+
+\subsection{Variables independientes}
+
+\textbf{Frecuencia de uso.} Regularidad con la que el estudiante recurre a herramientas de IAG en sus actividades académicas. \emph{Función:} independiente en $H_1$.
+
+\textbf{Experiencia previa en programación.} Conocimiento y práctica en programación que el estudiante ha adquirido antes del estudio, tanto en cursos del programa como de forma autónoma. \emph{Función:} independiente en $H_2$.
+
+\textbf{Semestre cursado.} Nivel de avance del estudiante en el plan de estudios del programa en el momento del estudio. \emph{Función:} independiente en el análisis exploratorio del objetivo específico 3.
+
+\textbf{Confianza en las propias habilidades.} Percepción del estudiante sobre su capacidad para resolver problemas de programación sin apoyo externo (autoeficacia). \emph{Función:} independiente en el análisis exploratorio del objetivo específico 3.
+
+\subsection{Variable dependiente adicional}
+
+\textbf{Desempeño sin apoyo de IAG.} Grado en que el estudiante logra resolver o explicar correctamente un problema de programación sin usar la herramienta. \emph{Función:} dependiente en $H_3$.
+
+\subsection{Variables intervinientes}
+
+\textbf{Promedio académico.} Valoración global del rendimiento del estudiante en el programa, que puede influir tanto en el grado de dependencia como en el desempeño, y que el diseño debe controlar.
+
+\textbf{Tipo de tareas en que usa la IAG.} Naturaleza de las actividades académicas en las que el estudiante recurre a la herramienta (por ejemplo, resolver ejercicios, depurar código o comprender conceptos), que puede influir en el grado de dependencia y en el desempeño, y que el diseño debe controlar.
+
+\begin{table}[ht]
+\centering
+\caption{Resumen de variables del estudio}
+\label{tab:variables}
+\small
+\begin{tabular}{@{}p{5cm}p{3.6cm}p{3.6cm}@{}}
+\toprule
+\textbf{Variable} & \textbf{Función} & \textbf{Aparece en} \\
+\midrule
+Dependencia de la IAG & Dependiente / Independiente & $H_1$, $H_2$ / $H_3$ \\
+Frecuencia de uso & Independiente & $H_1$ \\
+Experiencia previa & Independiente & $H_2$ \\
+Semestre cursado & Independiente & Objetivo 3 \\
+Confianza en sus habilidades & Independiente & Objetivo 3 \\
+Desempeño sin apoyo & Dependiente & $H_3$ \\
+Promedio académico & Interviniente & Control \\
+Tipo de tareas & Interviniente & Control \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Marco referencial}
 
